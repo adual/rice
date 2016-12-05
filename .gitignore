@@ -1,0 +1,19 @@
+#Ignore class files
+*.class
+
+*.jar
+
+*.war
+
+**/build
+
+**/bin
+
+#Ignore IDE related files
+.recommenders
+
+.metadata
+
+**/.settings
+
+**/.project
