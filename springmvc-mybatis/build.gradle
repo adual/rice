@@ -9,7 +9,9 @@
 
 // Apply the java plugin to add support for Java
 apply plugin: 'war'
-apply plugin: 'eclipse-wtp'
+apply plugin: 'eclipse'
+
+version = 3.0
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -54,3 +56,9 @@ dependencies {
 	compile 'javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:1.2.1'
 	
 }
+
+task delopyToTomcat(type: Copy){
+	from 'build/libs/'
+	into 'D:/Tools/apache-tomcat-7.0.63/work/'
+}
+
