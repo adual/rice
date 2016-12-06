@@ -31,6 +31,10 @@ repositories {
     //mavenCentral()
     maven{
     	url 'http://central.maven.org/maven2/'
+    	artifactUrls: "http://repo.maven.apache.org/maven2"
+    	artifactUrls: "http://maven.springframework.org/milestone"
+    	artifactUrls: "http://files.couchbase.com/maven2/"
+    	artifactUrls: "https://maven.alfresco.com/nexus/content/groups/public"
     }
 }
 
