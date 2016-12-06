@@ -1,7 +1,7 @@
 #Ignore class files
 *.class
 
-*.jar
+**/lib/*.jar
 
 *.war
 

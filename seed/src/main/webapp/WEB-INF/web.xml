@@ -1,0 +1,89 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  <display-name>Archetype Created Web Application</display-name>
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:/spring/root-context.xml</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>log4jConfigLocation</param-name>
+    <param-value>classpath:log4j.properties</param-value>
+  </context-param>
+  
+  <!-- Fix spring JNDI NamingException -->
+  <context-param>  
+    <param-name>spring.profiles.active</param-name>  
+    <param-value>dev</param-value>  
+  </context-param>  
+  <context-param>  
+      <param-name>spring.profiles.default</param-name>  
+      <param-value>dev</param-value>  
+  </context-param>
+  <context-param>  
+      <param-name>spring.liveBeansView.mbeanDomain</param-name>  
+      <param-value>dev</param-value>  
+  </context-param> 
+  
+  <filter>
+  	<filter-name>CharacterEncodingFilter</filter-name>
+  	<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+  	<init-param>
+  		<param-name>encoding</param-name>
+  		<param-value>UTF-8</param-value>
+  	</init-param>
+  	<init-param>
+  		<param-name>forceEncoding</param-name>
+  		<param-value>true</param-value>
+  	</init-param>
+  </filter>
+  
+  <filter>
+  	<filter-name>HttpMethodFilter</filter-name>
+  	<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>CharacterEncodingFilter</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
+  <filter-mapping>
+  	<filter-name>HttpMethodFilter</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
+  <!-- 配置spring中对于log4j的listener,注意该Listener要在spring的listener之前  -->
+  <listener>
+  	<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+  </listener>
+  
+  <!-- Creates the Spring Container shared by all Servlets and Filters -->
+  <listener>
+  	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  
+  <servlet>
+  	<servlet-name>pandacc</servlet-name>
+  	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+  	<!-- The configuration for the separate sub application context -->
+  	<init-param>
+  		<param-name>contextConfigLocation</param-name>
+  		<param-value>classpath:/spring/servlet-context.xml</param-value>
+  	</init-param>
+  	<load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>pandacc</servlet-name>
+  	<url-pattern>/</url-pattern>
+  </servlet-mapping>
+
+  
+  <welcome-file-list>
+  	<welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>

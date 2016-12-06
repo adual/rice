@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+			xmlns:mvc="http://www.springframework.org/schema/mvc" 
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xmlns:context="http://www.springframework.org/schema/context"
+			xsi:schemaLocation="http://www.springframework.org/schema/mvc
+								http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+								http://www.springframework.org/schema/beans
+								http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+								http://www.springframework.org/schema/context
+								http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+	 <!-- 默认的注解映射的支持 --> 
+	<mvc:annotation-driven />
+	<context:component-scan base-package="org.pandaria.cafe.controller"></context:component-scan>
+
+	<bean class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean" id="cnManager">
+		<property name="favorPathExtension" value="true"></property>
+		<!-- 用于开启 /userinfo/123?format=json 的支持，false为关闭 -->
+		<property name="favorParameter" value="true"></property>
+		<property name="parameterName" value="mediaType"></property>
+		<property name="ignoreAcceptHeader" value="true" />
+		<property name="useJaf" value="false"></property>
+		<property name="defaultContentType" value="application/json" />
+		<!-- 扩展名至mimeType的映射,即 /user.json => application/json -->
+		<property name="mediaTypes">
+			<map>
+				<entry key="html" value="text/html"></entry>
+				<entry key="json" value="application/json"></entry>
+				<entry key="xml" value="application/xml"></entry>
+			</map>
+		</property>
+	</bean>
+	<!-- View resolver that delegates to other view resolvers based on the content type -->
+	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="contentNegotiationManager" ref="cnManager"></property>
+		<property name="viewResolvers">
+			<list>
+				<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+					<property name="contentType" value="application/json"></property>
+					<property name="prefix" value="/view/"></property>
+					<property name="suffix" value=".html"></property>
+				</bean>
+				<bean class="org.springframework.web.servlet.view.BeanNameViewResolver"></bean>
+			</list>
+		</property>
+		<property name="defaultViews">
+			<list>
+				<!-- for application/json -->
+				<bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"></bean>
+				<!-- for application/xml -->
+				<!-- <bean class="org.springframework.web.servlet.view.xml.MarshallingView" 
+					> <property name="marshaller"> <bean class="org.springframework.oxm.xstream.XStreamMarshaller"></bean> 
+					</property> </bean> -->
+
+			</list>
+		</property>
+	</bean>
+</beans>
