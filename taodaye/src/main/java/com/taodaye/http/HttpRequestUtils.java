@@ -56,10 +56,10 @@ public class HttpRequestUtils {
 	}
 	
 	
-	public static void get(String url, String content) throws ClientProtocolException, IOException{
+	public static void get(String url) throws ClientProtocolException, IOException{
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 		HttpGet httpGet = new HttpGet(url);
-		CloseableHttpResponse response1 = httpclient.execute(httpGet);
+		CloseableHttpResponse response = httpclient.execute(httpGet);
 		// The underlying HTTP connection is still held by the response object
 		// to allow the response content to be streamed directly from the network socket.
 		// In order to ensure correct deallocation of system resources
@@ -68,31 +68,27 @@ public class HttpRequestUtils {
 		// connection cannot be safely re-used and will be shut down and discarded
 		// by the connection manager. 
 		try {
-		    System.out.println(response1.getStatusLine());
-		    HttpEntity entity1 = response1.getEntity();
+		    System.out.println(response.getStatusLine());
+		    HttpEntity entity1 = response.getEntity();
 		    InputStream is = entity1.getContent();
 		    BufferedReader br = new BufferedReader(new InputStreamReader(is));
 		    String line = "";
 		    do {
 		    	line = br.readLine();
-		    	SearchResultObject res = null;
-		    	if (StringUtils.isNotBlank(line)) {
-		    		res = JSONObjectUtils.json2Ojbect(line, SearchResultObject.class);
-		    		System.out.println(res.getCounts());
-				}
-			} while (StringUtils.isNotBlank(line));
+	    		System.out.println(line);
+			} while (line == null);
 		    // do something useful with the response body
 		    // and ensure it is fully consumed
 		    EntityUtils.consume(entity1);
 		} finally {
-		    response1.close();
+		    response.close();
 		}
 
 	}
 	
 	public static void main(String[] args) {
 		try {
-			HttpRequestUtils.get("http://api.ygyhg.com/pc/free?keyword=hello&order=feedtime&num=3", "");
+			HttpRequestUtils.get("https://so.ygyhg.com/");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
