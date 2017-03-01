@@ -10,6 +10,28 @@
 apply plugin: 'war'
 apply plugin: 'eclipse-wtp'
 
+eclipse {
+	pathVariables 'GRADLE_HOME': file('E:/software/gradle-3.3'), 'TOMCAT_HOME': file('E:/software/apache-tomcat-7.0.73')
+	classpath {
+			
+			//defaultOutputDir = file('/WebContent/WEB-INF/lib')
+			downloadSources = false
+			downloadJavadoc = false
+		}
+	wtp {
+		component {
+			contextPath = 'taodaye'
+			deployName = 'taodaye'
+		}
+		facet {
+			//facet name: 'jst.java', version: '1.8'
+			//facet name: 'jst.web', version: '3.0'
+			facet name: 'wst.jsdt.web', version: '1.0'
+		}
+		
+	}
+}
+
 // In this section you declare where to find the dependencies of your project
 repositories {
     // Use jcenter for resolving your dependencies.
